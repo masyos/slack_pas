@@ -1,6 +1,6 @@
-(* SPDX-License-Identifier: Apache-2.0 *)
+(* SPDX-License-Identifier: MIT *)
 (*
-   SlackPas(SlackAPI for Pascal) version 0.0.1
+   slack_pas(SlackAPI for Pascal) version 0.0.1
    Copyright 2022 YOSHIDA, Masahiro.
  *)
 unit Slack.IncomingWebhook;
@@ -16,7 +16,22 @@ uses
 {$ENDIF}
   ;
 
+{
+  IncomingWebhook
+  @param Url IncomingWebhook URL. 
+  @param Body JSON.
+  @param Response response string.
+  @return http response status code. (200 = ok)
+}
 function SlackIncomingWebhook(const Url, Body: utf8string; var Response: utf8string): Integer;
+
+{
+  IncomingWebhook for Simple Text.
+  @param Url IncomingWebhook URL. 
+  @param Text simple text.
+  @param Response response string.
+  @return http response status code. (200 = ok)
+}
 function SlackIncomingWebhookText(const Url, Text: utf8string; var Response: utf8string): Integer;
 
 
