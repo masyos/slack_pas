@@ -1,0 +1,99 @@
+object Form1: TForm1
+  Left = 392
+  Height = 828
+  Top = 176
+  Width = 956
+  Caption = 'Form1'
+  ClientHeight = 798
+  ClientWidth = 956
+  DesignTimePPI = 144
+  Menu = MainMenu1
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  LCLVersion = '2.2.2.0'
+  object Label1: TLabel
+    Left = 32
+    Height = 25
+    Top = 24
+    Width = 116
+    Caption = 'WebHook URL'
+    ParentColor = False
+  end
+  object UrlEdit1: TEdit
+    Left = 32
+    Height = 33
+    Top = 56
+    Width = 744
+    TabOrder = 0
+    Text = 'https://hooks.slack.com/services/'
+  end
+  object Label2: TLabel
+    Left = 32
+    Height = 25
+    Top = 112
+    Width = 30
+    Caption = 'Text'
+    ParentColor = False
+  end
+  object Memo1: TMemo
+    Left = 32
+    Height = 344
+    Top = 144
+    Width = 736
+    ScrollBars = ssAutoBoth
+    TabOrder = 1
+  end
+  object Button1: TButton
+    Left = 816
+    Height = 38
+    Top = 160
+    Width = 113
+    Caption = 'Post'
+    OnClick = Button1Click
+    TabOrder = 2
+  end
+  object Button2: TButton
+    Left = 816
+    Height = 38
+    Top = 232
+    Width = 113
+    Caption = 'Block Post'
+    OnClick = Button2Click
+    TabOrder = 3
+  end
+  object Label3: TLabel
+    Left = 32
+    Height = 25
+    Top = 512
+    Width = 77
+    Caption = 'Response'
+    ParentColor = False
+  end
+  object Memo2: TMemo
+    Left = 32
+    Height = 216
+    Top = 544
+    Width = 737
+    ScrollBars = ssAutoBoth
+    TabOrder = 4
+  end
+  object ActionList1: TActionList
+    Left = 136
+    Top = 216
+    object FileExit1: TFileExit
+      Category = 'File'
+      Caption = '終了(&X)'
+      Hint = '終了'
+    end
+  end
+  object MainMenu1: TMainMenu
+    Left = 136
+    Top = 304
+    object MenuItem1: TMenuItem
+      Caption = '&File'
+      object MenuItem2: TMenuItem
+        Action = FileExit1
+      end
+    end
+  end
+end
