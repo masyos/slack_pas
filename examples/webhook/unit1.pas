@@ -31,16 +31,20 @@ type
     Label2: TLabel;
     MainMenu1: TMainMenu;
     Memo1: TMemo;
+
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+
   private
     FResponse: utf8string;
 
+    procedure Post(const ABody: utf8string);
+
     procedure SaveConf;
     procedure LoadConf;
-    procedure WriteLog(err: integer);
+    procedure WriteLog;
   public
 
   end;
@@ -54,53 +58,62 @@ implementation
 
 uses
   JsonConf,
-  Slack.IncomingWebHook;
+  Slack.WebHook;
 
 const
   ConfFilename = 'local.settings.json';
-  WebHookUrlKey: utf8string = '/Slack/IncomingWebhook';
+  ConfWebHookUrlKey: utf8string = '/Slack/IncomingWebhook';
 
 { TForm1 }
 
 procedure TForm1.Button1Click(Sender: TObject);
 var
-  err: integer;
+  body: utf8string;
 begin
   // simple text.
   if (not (URLEdit1.Text = EmptyStr)) and (not (Memo1.Lines.Text = EmptyStr)) then
   begin
-    FResponse := EmptyStr;
-    err := SlackIncomingWebhookText(URLEdit1.Text,
-        Memo1.Lines.Text,
-        FResponse);
-    WriteLog(err);
+    body := SlackBuildSimpleTextBody(Memo1.Lines.Text);
+    Post(body);
+    WriteLog;
   end;
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
 var
-  err: integer;
+  body: utf8string;
 begin
   // block json.
   if (not (URLEdit1.Text = EmptyStr)) and (not (Memo1.Lines.Text = EmptyStr)) then
   begin
-    FResponse := EmptyStr;
-    err := SlackIncomingWebhook(URLEdit1.Text,
-        Memo1.Lines.Text,
-        FResponse);
-    WriteLog(err);
+    body := Memo1.Lines.Text;
+    Post(body);
+    WriteLog;
   end;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  FResponse := EmptyStr;
   LoadConf;
+  FResponse := EmptyStr;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
   SaveConf;
+end;
+
+procedure TForm1.Post(const ABody: utf8string);
+var
+  Response: TStringStream;
+begin
+  Response := TStringStream.Create;
+  try
+    TSlackWebhookClient.SimplePost(URLEdit1.Text, ABody, Response);
+    FResponse := Response.DataString;
+  finally
+    Response.Free;
+  end;
 end;
 
 procedure TForm1.SaveConf;
@@ -111,7 +124,7 @@ begin
   try
     cfg.Filename := ConfFilename;
 
-    cfg.SetValue(WebHookUrlKey, URLEdit1.Text);
+    cfg.SetValue(ConfWebHookUrlKey, URLEdit1.Text);
   finally
     cfg.Free;
   end;
@@ -124,16 +137,15 @@ begin
   cfg := TJSONConfig.Create(nil);
   try
     cfg.Filename := ConfFilename;
-    URLEdit1.Text := cfg.GetValue(WebHookUrlKey, URLEdit1.Text);
+    URLEdit1.Text := cfg.GetValue(ConfWebHookUrlKey, URLEdit1.Text);
   finally
     cfg.Free;
   end;
 end;
 
-procedure TForm1.WriteLog(err: integer);
+procedure TForm1.WriteLog;
 begin
   Memo2.Lines.Clear;
-  Memo2.Lines.Add('Error Code: ' + IntToStr(err));
   Memo2.Lines.Add(FResponse);
 end;
 

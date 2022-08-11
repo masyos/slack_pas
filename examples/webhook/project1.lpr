@@ -10,8 +10,7 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, Unit1, Slack.IncomingWebhook
-  { you can add units after this };
+  Forms, Unit1, Slack.Webhook, Slack.Components;
 
 {$R *.res}
 

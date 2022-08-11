@@ -43,9 +43,14 @@
         <UnitName Value="Unit1"/>
       </Unit>
       <Unit>
-        <Filename Value="..\..\src\slack.incomingwebhook.pas"/>
+        <Filename Value="..\..\src\slack.components.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Slack.IncomingWebhook"/>
+        <UnitName Value="Slack.Components"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\src\slack.webhook.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Slack.Webhook"/>
       </Unit>
     </Units>
   </ProjectOptions>
