@@ -104,16 +104,8 @@ begin
 end;
 
 procedure TForm1.Post(const ABody: utf8string);
-var
-  Response: TStringStream;
 begin
-  Response := TStringStream.Create;
-  try
-    TSlackWebhookClient.SimplePost(URLEdit1.Text, ABody, Response);
-    FResponse := Response.DataString;
-  finally
-    Response.Free;
-  end;
+  TSlackWebhookClient.SimplePost(URLEdit1.Text, ABody);
 end;
 
 procedure TForm1.SaveConf;

@@ -34,12 +34,28 @@ type
       Incoming Webhook Post.
       @param AUrl Webhook URL.
       @param ABody JSON string.
-      @param AResponse response stream.
+      @return response string.
     }
-    class procedure SimplePost(const AUrl, ABody: utf8string; const AResponse: TStream);
+    class function SimplePost(const AUrl, ABody: utf8string): utf8string;
+
+    {
+      Incoming Webhook Post.
+      @param AUrl Webhook URL.
+      @param ABody plane text string.
+      @return response string.
+    }
+    class function SimplePostForTextOnly(const AUrl, ABody: utf8string): utf8string;
 
     constructor Create;
     destructor Destroy; override;
+
+    {
+      Incoming Webhook Post.
+      @param AUrl Webhook URL.
+      @param ABody JSON.
+      @return response string.
+    }
+    function Post(const ABody: utf8string): utf8string;
 
     {
       Incoming Webhook Post.
@@ -74,7 +90,7 @@ begin
   obj := TJSONObject.Create;
   try
     obj.Add('text', Text);
-	Result := obj.AsJSON;
+	  Result := obj.AsJSON;
   finally
     obj.Free;
   end;
@@ -88,13 +104,29 @@ begin
   FWebHookUrl:=AValue;
 end;
 
-class procedure TSlackWebhookClient.SimplePost(const AUrl, ABody: utf8string;
-  const AResponse: TStream);
+class function TSlackWebhookClient.SimplePost(const AUrl, ABody: utf8string
+  ): utf8string;
 begin
   with Self.Create do begin
     try
       WebhookURL := AUrl;
-      Post(ABody, AResponse);
+      Result := Post(ABody);
+    finally
+      Free;
+    end;
+  end;
+end;
+
+class function TSlackWebhookClient.SimplePostForTextOnly(const AUrl,
+  ABody: utf8string): utf8string;
+var
+  body: utf8string;
+begin
+  body := SlackBuildSimpleTextBody(ABody);
+  with Self.Create do begin
+    try
+      WebhookURL := AUrl;
+      Result := Post(body);
     finally
       Free;
     end;
@@ -113,6 +145,24 @@ destructor TSlackWebhookClient.Destroy;
 begin
   FClient.Free;
   inherited Destroy;
+end;
+
+function TSlackWebhookClient.Post(const ABody: utf8string): utf8string;
+var
+  response: TRawByteStringStream;
+begin
+  response := TRawByteStringStream.Create();
+  try
+    FClient.RequestBody := TRawByteStringStream.Create(ABody);
+    try
+      FClient.Post(FWebhookUrl, response);
+      Result := response.DataString;
+    finally
+      FClient.RequestBody.Free;
+    end;
+  finally
+    response.Free;
+  end;
 end;
 
 procedure TSlackWebhookClient.Post(const ABody: utf8string;
