@@ -1,0 +1,69 @@
+object Form1: TForm1
+  Left = 376
+  Height = 480
+  Top = 37
+  Width = 640
+  Caption = 'Form1'
+  ClientHeight = 480
+  ClientWidth = 640
+  DesignTimePPI = 144
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object LabeledEditUrl: TLabeledEdit
+    Left = 24
+    Height = 33
+    Top = 48
+    Width = 592
+    EditLabel.Height = 25
+    EditLabel.Width = 592
+    EditLabel.Caption = 'Url'
+    EditLabel.ParentColor = False
+    TabOrder = 0
+  end
+  object Button1: TButton
+    Left = 24
+    Height = 38
+    Top = 168
+    Width = 113
+    Caption = 'Post'
+    OnClick = Button1Click
+    TabOrder = 1
+  end
+  object Button2: TButton
+    Left = 24
+    Height = 38
+    Top = 416
+    Width = 113
+    Caption = 'Exit'
+    OnClick = Button2Click
+    TabOrder = 2
+  end
+  object LabeledEditText: TLabeledEdit
+    Left = 24
+    Height = 33
+    Top = 120
+    Width = 592
+    EditLabel.Height = 25
+    EditLabel.Width = 592
+    EditLabel.Caption = 'Text'
+    EditLabel.ParentColor = False
+    TabOrder = 3
+    OnChange = LabeledEditTextChange
+  end
+  object Memo1: TMemo
+    Left = 24
+    Height = 135
+    Top = 264
+    Width = 584
+    ScrollBars = ssBoth
+    TabOrder = 4
+  end
+  object Label1: TLabel
+    Left = 24
+    Height = 25
+    Top = 232
+    Width = 77
+    Caption = 'Response'
+    ParentColor = False
+  end
+end

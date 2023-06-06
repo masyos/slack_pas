@@ -1,7 +1,7 @@
 (* SPDX-License-Identifier: MIT *)
 (*
    slack_pas(SlackAPI for Pascal) version 0.0.1
-   Copyright 2022 YOSHIDA, Masahiro.
+   Copyright 2022-2023 YOSHIDA, Masahiro.
  *)
 unit Slack.Webhook;
 
@@ -64,6 +64,13 @@ type
       @param AResponse response stream.
     }
     procedure Post(const ABody: utf8string; const AResponse: TStream);
+
+    {
+      Incoming Webhook Post. (text only)
+      @param ABody plane text string.
+      @return response string.
+    }
+    function PostForTextOnly(const ABody: utf8string): utf8string;
 
     // webhook URL.
     property WebHookUrl: utf8string read FWebHookUrl write SetWebHookUrl;
@@ -151,6 +158,7 @@ function TSlackWebhookClient.Post(const ABody: utf8string): utf8string;
 var
   response: TRawByteStringStream;
 begin
+  Result := EmptyStr;
   response := TRawByteStringStream.Create();
   try
     FClient.RequestBody := TRawByteStringStream.Create(ABody);
@@ -174,6 +182,15 @@ begin
   finally
     FClient.RequestBody.Free;
   end;
+end;
+
+function TSlackWebhookClient.PostForTextOnly(const ABody: utf8string
+  ): utf8string;
+var
+  body: utf8string;
+begin
+  body := SlackBuildSimpleTextBody(ABody);
+  Result := Post(body);
 end;
 
 end.
