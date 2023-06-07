@@ -73,7 +73,7 @@ begin
   // simple text.
   if (not (URLEdit1.Text = EmptyStr)) and (not (Memo1.Lines.Text = EmptyStr)) then
   begin
-    body := SlackBuildSimpleTextBody(Memo1.Lines.Text);
+    body := SlackBuildPlaneTextBody(Memo1.Lines.Text);
     Post(body);
     WriteLog;
   end;

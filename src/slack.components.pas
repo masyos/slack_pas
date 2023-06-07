@@ -48,7 +48,7 @@ type
       @param ABody plane text string.
       @return response string.
     }
-    function PostForTextOnly(const ABody: string): string;
+    function PostForPlaneText(const ABody: string): string;
 
   published
     property WebHookUrl: string read GetWebHookUrl write SetWebHookUrl;
@@ -100,12 +100,12 @@ begin
   FClient.Post(s, AResponse);
 end;
 
-function TSlackWebHookComponent.PostForTextOnly(const ABody: string): string;
+function TSlackWebHookComponent.PostForPlaneText(const ABody: string): string;
 var
   s: utf8string;
 begin
   s := ABody;
-  Result := FClient.PostForTextOnly(s);
+  Result := FClient.PostForPlaneText(s);
 end;
 
 

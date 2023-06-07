@@ -44,7 +44,7 @@ type
       @param ABody plane text string.
       @return response string.
     }
-    class function SimplePostForTextOnly(const AUrl, ABody: utf8string): utf8string;
+    class function SimplePostForPlaneText(const AUrl, ABody: utf8string): utf8string;
 
     constructor Create;
     destructor Destroy; override;
@@ -66,11 +66,11 @@ type
     procedure Post(const ABody: utf8string; const AResponse: TStream);
 
     {
-      Incoming Webhook Post. (text only)
+      Incoming Webhook Post. (plane text only)
       @param ABody plane text string.
       @return response string.
     }
-    function PostForTextOnly(const ABody: utf8string): utf8string;
+    function PostForPlaneText(const ABody: utf8string): utf8string;
 
     // webhook URL.
     property WebHookUrl: utf8string read FWebHookUrl write SetWebHookUrl;
@@ -78,7 +78,7 @@ type
 
 
 
-function SlackBuildSimpleTextBody(const Text: utf8string): utf8string;
+function SlackBuildPlaneTextBody(const Text: utf8string): utf8string;
 
 
 implementation
@@ -89,7 +89,7 @@ uses
   fpjson;
 {$ENDIF}
 
-function SlackBuildSimpleTextBody(const Text: utf8string): utf8string;
+function SlackBuildPlaneTextBody(const Text: utf8string): utf8string;
 var
   obj: TJSONObject;
 begin
@@ -124,12 +124,12 @@ begin
   end;
 end;
 
-class function TSlackWebhookClient.SimplePostForTextOnly(const AUrl,
+class function TSlackWebhookClient.SimplePostForPlaneText(const AUrl,
   ABody: utf8string): utf8string;
 var
   body: utf8string;
 begin
-  body := SlackBuildSimpleTextBody(ABody);
+  body := SlackBuildPlaneTextBody(ABody);
   with Self.Create do begin
     try
       WebhookURL := AUrl;
@@ -184,12 +184,12 @@ begin
   end;
 end;
 
-function TSlackWebhookClient.PostForTextOnly(const ABody: utf8string
+function TSlackWebhookClient.PostForPlaneText(const ABody: utf8string
   ): utf8string;
 var
   body: utf8string;
 begin
-  body := SlackBuildSimpleTextBody(ABody);
+  body := SlackBuildPlaneTextBody(ABody);
   Result := Post(body);
 end;
 

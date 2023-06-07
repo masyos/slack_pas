@@ -59,7 +59,7 @@ end;
 procedure TForm1.Button1Click(Sender: TObject);
 begin
   FSlack.WebHookUrl:=LabeledEditUrl.Text;
-  Memo1.Text := FSlack.PostForTextOnly(LabeledEditText.Text);
+  Memo1.Text := FSlack.PostForPlaneText(LabeledEditText.Text);
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
